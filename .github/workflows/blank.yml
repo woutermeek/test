@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  issues:
+    types: opened
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
+jobs:
+  add-comment:
+    if: join(github.event.issue.labels) == ''
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Add comment
+        uses: peter-evans/create-or-update-comment@5f728c3dae25f329afbe34ee4d08eef25569d79f
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Please add label for which WPE version the issue is.
